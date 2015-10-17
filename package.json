@@ -1,0 +1,11 @@
+{
+  "name": "hclusterjs",
+  "version": "0.0.1",
+  "description": "Agglomerative Hierarchical Clustering in JavaScript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chris Polis",
+  "license": "MIT"
+}
