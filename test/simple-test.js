@@ -14,11 +14,11 @@ describe('Hcluster Algorithm with simple case', function() {
 
   //
   describe('simple color dataset', function() {
-    before(function() { this.set = colors.simple; });
+    before(function() { this.set = colors.complete; });
 
     it('builds the correct tree', function() {
       var clusters = hcluster()
-        .verbose(true)
+        .verbose(false)
         .data(this.set);
       console.log(
         clusters.orderedNodes()

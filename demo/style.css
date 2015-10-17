@@ -1,0 +1,26 @@
+/*
+ *
+ *
+ *
+ */
+
+body, html, * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inconsolata', sans-serif;
+}
+.node circle {
+  fill: #fff;
+  stroke-width: 1.5px;
+}
+.node {
+  font-size: 13px;
+}
+.link {
+  fill: none;
+  stroke-width: 1px;
+}
+svg text {
+  font-size: 10px;
+}

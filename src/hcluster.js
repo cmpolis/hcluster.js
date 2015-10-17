@@ -56,7 +56,11 @@ var hcluster = function() {
     return treeRoot.indexes.map(function(ndx) {
       return data[ndx];
     });
-  }
+  };
+  clust.tree = function() {
+    if(!treeRoot) throw new Error('Need to passin data and build tree first.');
+    return treeRoot;
+  };
 
   //
   // math, matrix utility fn's
@@ -130,6 +134,8 @@ var hcluster = function() {
       if(verbose) console.log(newCluster);
 
       // remove merged nodes and push new node
+      // clusters[nearestPair[0]].parent = newCluster;
+      // clusters[nearestPair[1]].parent = newCluster;
       clusters.splice(Math.max(nearestPair[0], nearestPair[1]),1);
       clusters.splice(Math.min(nearestPair[0], nearestPair[1]),1);
       clusters.push(newCluster);

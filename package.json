@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha test/*-test.js",
-    "build": "browserify index.js -s hclusterjs -o hcluster.js"
+    "build": "browserify src/hcluster.js -s hcluster -o hcluster.js"
   },
   "author": "Chris Polis",
   "license": "MIT",
