@@ -4,6 +4,8 @@
 //  values from: http://cloford.com/resources/colours/500col.htm
 
 var simple = [
+  { name: 'cornflowerblue',
+    position: [ 100, 149, 237 ] },
   { name: 'crimson',
     position: [ 220, 20, 60 ] },
   { name: 'indian red',
@@ -18,9 +20,7 @@ var simple = [
     position: [ 205, 0, 205 ] },
 
   { name: 'royalblue',
-    position: [ 65, 105, 225 ] },
-  { name: 'cornflowerblue',
-    position: [ 100, 149, 237 ] }
+    position: [ 65, 105, 225 ] }
 ];
 
 module.exports = {
