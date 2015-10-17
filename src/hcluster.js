@@ -1,8 +1,7 @@
 //
 //
 //
-var d3a = require('d3-arrays'),
-    distance = require('distancejs'),
+var distance = require('distancejs'),
     clone = require('clone'),
     extend = require('extend');
 
@@ -10,7 +9,7 @@ var d3a = require('d3-arrays'),
 var hcluster = function() {
   var data,
       clusters,
-      tree,
+      treeRoot,
       posKey = 'position',
       distanceFn = distance.angularSimilarity,
       linkage = 'avg',
@@ -30,6 +29,21 @@ var hcluster = function() {
     // dataset will be mutated
     data = clone(value);
     clust._buildTree();
+  };
+  clust.posKey = function(value) {
+    if(!arguments.length) return posKey;
+    posKey = value;
+    return clust;
+  };
+  clust.linkage = function(value) {
+    if(!arguments.length) return linkage;
+    linkage = value;
+    return clust;
+  };
+  clust.verbose = function(value) {
+    if(!arguments.length) return verbose;
+    verbose = value;
+    return clust;
   };
 
   //
@@ -74,7 +88,10 @@ var hcluster = function() {
       d._distances = data.map(function(compareTo) {
         return distanceFn(d[posKey], compareTo[posKey]);
       });
-      clusters.push(extend(d, { indexes: [ndx] }));
+      clusters.push(extend(d, {
+        height: 1,
+        indexes: [ndx]
+      }));
     });
 
     // for tree of n leafs, n-1 linkages
@@ -87,13 +104,14 @@ var hcluster = function() {
       // find closest pair of clusters, pair[2] is distance
       clusterPairs = clust._squareMatrixPairs(clusters.length);
       clusterPairs.forEach(function(pair) {
-        pair[2] = clust._avgDistance(
+        pair[2] = clust['_'+linkage+'Distance'](
                   clusters[pair[0]].indexes,
                   clusters[pair[1]].indexes ); });
       nearestPair = clusterPairs
         .sort(function(pairA, pairB) { return pairB[2] - pairA[2]; })[0];
       newCluster = {
         name: 'Node ' + iter,
+        height: nearestPair[2],
         indexes: clusters[nearestPair[0]].indexes.concat(clusters[nearestPair[1]].indexes),
         children: [ clusters[nearestPair[0]], clusters[nearestPair[1]] ],
       };
@@ -104,6 +122,8 @@ var hcluster = function() {
       clusters.splice(Math.min(nearestPair[0], nearestPair[1]),1);
       clusters.push(newCluster);
     }
+
+    treeRoot = clusters[0];
   };
 
   return clust;

@@ -17,7 +17,9 @@ describe('Hcluster Algorithm with simple case', function() {
     before(function() { this.set = colors.simple; });
 
     it('builds the correct tree', function() {
-      var clusters = hcluster().data(this.set);
+      var clusters = hcluster()
+        .verbose(true)
+        .data(this.set);
       console.log(clusters);
     });
   });
