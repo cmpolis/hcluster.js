@@ -29,6 +29,7 @@ var hcluster = function() {
     // dataset will be mutated
     data = clone(value);
     clust._buildTree();
+    return clust;
   };
   clust.posKey = function(value) {
     if(!arguments.length) return posKey;
@@ -45,6 +46,17 @@ var hcluster = function() {
     verbose = value;
     return clust;
   };
+
+  //
+  // get tree properties
+
+  clust.orderedNodes = function() {
+    if(!treeRoot) throw new Error('Need to passin data and build tree first.');
+
+    return treeRoot.indexes.map(function(ndx) {
+      return data[ndx];
+    });
+  }
 
   //
   // math, matrix utility fn's

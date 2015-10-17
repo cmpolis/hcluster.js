@@ -20,7 +20,11 @@ describe('Hcluster Algorithm with simple case', function() {
       var clusters = hcluster()
         .verbose(true)
         .data(this.set);
-      console.log(clusters);
+      console.log(
+        clusters.orderedNodes()
+          .map(function(d) { return d.name; })
+          .join(',')
+      );
     });
   });
 });
