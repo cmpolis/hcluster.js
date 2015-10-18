@@ -105,6 +105,28 @@ var hcluster = function() {
     return distance / setA.length / setB.length;
   };
 
+  // min distance between set of cluster indexes
+  clust._minDistance = function(setA, setB) {
+    var distances = [];
+    for(var ndxA = 0; ndxA < setA.length; ndxA++) {
+      for(var ndxB = 0; ndxB < setB.length; ndxB++) {
+        distances.push(data[setA[ndxA]]._distances[setB[ndxB]]);
+      }
+    }
+    return distances.sort()[0];
+  };
+
+  // max distance between set of cluster indexes
+  clust._maxDistance = function(setA, setB) {
+    var distances = [];
+    for(var ndxA = 0; ndxA < setA.length; ndxA++) {
+      for(var ndxB = 0; ndxB < setB.length; ndxB++) {
+        distances.push(data[setA[ndxA]]._distances[setB[ndxB]]);
+      }
+    }
+    return distances.sort()[distances.length-1];
+  };
+
   //
   // tree construction
 
