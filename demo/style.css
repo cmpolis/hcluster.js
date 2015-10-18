@@ -10,6 +10,9 @@ body, html, * {
   box-sizing: border-box;
   font-family: 'Inconsolata', sans-serif;
 }
+body {
+  padding: 20px 40px;
+}
 .node circle {
   fill: #fff;
   stroke-width: 1.5px;
