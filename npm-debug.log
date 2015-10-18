@@ -1,29 +1,51 @@
 0 info it worked if it ends with ok
 1 verbose cli [ '/Users/chris/.nvm/v0.10.36/bin/node',
 1 verbose cli   '/Users/chris/.nvm/v0.10.36/bin/npm',
-1 verbose cli   'run',
-1 verbose cli   'build' ]
+1 verbose cli   'completion',
+1 verbose cli   '--',
+1 verbose cli   'npm',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'ugli' ]
 2 info using npm@1.4.28
 3 info using node@v0.10.36
-4 verbose run-script [ 'prebuild', 'build', 'postbuild' ]
-5 info prebuild hclusterjs@0.0.1
-6 info build hclusterjs@0.0.1
-7 verbose unsafe-perm in lifecycle true
-8 info hclusterjs@0.0.1 Failed to exec build script
-9 error hclusterjs@0.0.1 build: `browserify src/hcluster.js -s hcluster -o hcluster.js`
-9 error Exit status 1
-10 error Failed at the hclusterjs@0.0.1 build script.
-10 error This is most likely a problem with the hclusterjs package,
-10 error not with npm itself.
-10 error Tell the author that this fails on your system:
-10 error     browserify src/hcluster.js -s hcluster -o hcluster.js
-10 error You can get their info via:
-10 error     npm owner ls hclusterjs
-10 error There is likely additional logging output above.
-11 error System Darwin 14.0.0
-12 error command "/Users/chris/.nvm/v0.10.36/bin/node" "/Users/chris/.nvm/v0.10.36/bin/npm" "run" "build"
-13 error cwd /Users/chris/hclusterjs
-14 error node -v v0.10.36
-15 error npm -v 1.4.28
-16 error code ELIFECYCLE
-17 verbose exit [ 1, true ]
+4 verbose request where is /-/short
+5 verbose request registry http://registry.npmjs.org/
+6 verbose request id 20f6b63edf3a524b
+7 verbose url raw /-/short
+8 verbose url resolving [ 'http://registry.npmjs.org/', './-/short' ]
+9 verbose url resolved http://registry.npmjs.org/-/short
+10 verbose request where is http://registry.npmjs.org/-/short
+11 info trying registry request attempt 1 at 18:06:10
+12 http GET http://registry.npmjs.org/-/short
+13 http 404 http://registry.npmjs.org/-/short
+14 silly registry.get cb [ 404,
+14 silly registry.get   { 'content-type': 'application/json',
+14 silly registry.get     'cache-control': 'max-age=0',
+14 silly registry.get     'content-length': '2',
+14 silly registry.get     'accept-ranges': 'bytes',
+14 silly registry.get     date: 'Sun, 18 Oct 2015 01:06:10 GMT',
+14 silly registry.get     via: '1.1 varnish',
+14 silly registry.get     connection: 'keep-alive',
+14 silly registry.get     'x-served-by': 'cache-sjc3121-SJC',
+14 silly registry.get     'x-cache': 'MISS',
+14 silly registry.get     'x-cache-hits': '0',
+14 silly registry.get     'x-timer': 'S1445130370.537091,VS0,VE347' } ]
+15 error TypeError: Object #<Object> has no method 'match'
+15 error     at escape (/Users/chris/.nvm/v0.10.36/lib/node_modules/npm/lib/completion.js:185:10)
+15 error     at /Users/chris/.nvm/v0.10.36/lib/node_modules/npm/lib/completion.js:199:14
+15 error     at Array.map (native)
+15 error     at /Users/chris/.nvm/v0.10.36/lib/node_modules/npm/lib/completion.js:197:19
+15 error     at /Users/chris/.nvm/v0.10.36/lib/node_modules/npm/lib/install.js:40:35
+15 error     at saved (/Users/chris/.nvm/v0.10.36/lib/node_modules/npm/node_modules/npm-registry-client/lib/get.js:167:7)
+15 error     at Object.oncomplete (fs.js:108:15)
+16 error If you need help, you may report this *entire* log,
+16 error including the npm and node versions, at:
+16 error     <http://github.com/npm/npm/issues>
+17 error System Darwin 14.0.0
+18 error command "/Users/chris/.nvm/v0.10.36/bin/node" "/Users/chris/.nvm/v0.10.36/bin/npm" "completion" "--" "npm" "install" "-g" "ugli"
+19 error cwd /Users/chris/hclusterjs
+20 error node -v v0.10.36
+21 error npm -v 1.4.28
+22 error type undefined_method
+23 verbose exit [ 1, true ]

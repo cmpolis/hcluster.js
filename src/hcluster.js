@@ -12,7 +12,7 @@ var hcluster = function() {
       treeRoot,
       posKey = 'position',
       distanceName = 'angular',
-      distanceFn = distance.angularSimilarity,
+      distanceFn = distance.angular,
       linkage = 'avg',
       verbose = false;
 
@@ -51,9 +51,9 @@ var hcluster = function() {
     if(!arguments.length) return distanceName;
     distanceName = value;
     distanceFn = {
-      angular: distance.angularSimilarity,
+      angular: distance.angular,
       euclidean: distance.euclidean
-    }[value];
+    }[value] || distance.angular;
     return clust;
   }
 
@@ -71,11 +71,12 @@ var hcluster = function() {
     if(!treeRoot) throw new Error('Need to passin data and build tree first.');
     return treeRoot;
   };
+
+  // TODO: build function to get n clusters from tree
   clust.getClusters = function(n) {
     if(!treeRoot) throw new Error('Need to passin data and build tree first.');
     if(n > data.length) throw new Error('n must be less than the size of the dataset');
-
-    return treeRoot;
+    return [];
   };
 
   //
@@ -121,7 +122,7 @@ var hcluster = function() {
         return distanceFn(d[posKey], compareTo[posKey]);
       });
       clusters.push(extend(d, {
-        height: distanceName === 'angular' ? 1 : d._distances[ndx],
+        height: 0,
         indexes: [ndx]
       }));
     });
@@ -140,8 +141,7 @@ var hcluster = function() {
                   clusters[pair[0]].indexes,
                   clusters[pair[1]].indexes ); });
       nearestPair = clusterPairs
-        .sort(function(pairA, pairB) { return pairB[2] - pairA[2]; })[
-          distanceName === 'angular' ? 0 : clusterPairs.length - 1];
+        .sort(function(pairA, pairB) { return pairA[2] - pairB[2]; })[0];
       newCluster = {
         name: 'Node ' + iter,
         height: nearestPair[2],
@@ -151,8 +151,6 @@ var hcluster = function() {
       if(verbose) console.log(newCluster);
 
       // remove merged nodes and push new node
-      clusters[nearestPair[0]].parent = newCluster;
-      clusters[nearestPair[1]].parent = newCluster;
       clusters.splice(Math.max(nearestPair[0], nearestPair[1]),1);
       clusters.splice(Math.min(nearestPair[0], nearestPair[1]),1);
       clusters.push(newCluster);
@@ -164,27 +162,27 @@ var hcluster = function() {
 
   // TODO: better rebalancing algo? ... this is just for presentation
   // rebalance after tree is built (b/c it is top down operation)
-  clust._rebalanceTree = function(node) {
-    if(node.parent && node.parent.children && node.parent.children.length &&
-       node.children && node.children.length) {
-      var rightDistance = clust['_'+linkage+'Distance'](
-        node.parent.children[1].indexes,
-        node.children[0].indexes);
-      var leftDistance = clust['_'+linkage+'Distance'](
-        node.parent.children[1].indexes,
-        node.children[1].indexes);
+  // clust._rebalanceTree = function(node) {
+  //   if(node.parent && node.parent.children && node.parent.children.length &&
+  //      node.children && node.children.length) {
+  //     var rightDistance = clust['_'+linkage+'Distance'](
+  //       node.parent.children[1].indexes,
+  //       node.children[0].indexes);
+  //     var leftDistance = clust['_'+linkage+'Distance'](
+  //       node.parent.children[1].indexes,
+  //       node.children[1].indexes);
 
-      // switch order of node.children
-      if(leftDistance > rightDistance) {
-        node.children = [ node.children[1], node.children[0] ];
-        node.indexes = node.children[0].indexes.concat(node.children[1].indexes);
-      }
-    }
-    if(node.children) {
-      clust._rebalanceTree(node.children[0]);
-      clust._rebalanceTree(node.children[1]);
-    }
-  };
+  //     // switch order of node.children
+  //     if(leftDistance > rightDistance) {
+  //       node.children = [ node.children[1], node.children[0] ];
+  //       node.indexes = node.children[0].indexes.concat(node.children[1].indexes);
+  //     }
+  //   }
+  //   if(node.children) {
+  //     clust._rebalanceTree(node.children[0]);
+  //     clust._rebalanceTree(node.children[1]);
+  //   }
+  // };
 
   return clust;
 };

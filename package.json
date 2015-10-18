@@ -1,8 +1,8 @@
 {
   "name": "hclusterjs",
-  "version": "0.0.1",
+  "version": "1.2.0",
   "description": "Agglomerative Hierarchical Clustering in JavaScript.",
-  "main": "index.js",
+  "main": "src/hcluster.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha test/*-test.js",
     "build": "browserify src/hcluster.js -s hcluster -o hcluster.js"
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "clone": "^1.0.2",
-    "distancejs": "^1.0.0",
+    "distancejs": "^1.1.0",
     "extend": "^3.0.0"
   }
 }

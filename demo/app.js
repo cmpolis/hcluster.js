@@ -8,7 +8,7 @@ var colors = window.colors = [{"name":"Almond","position":[239,222,205]},{"name"
 //
 var hcluster = hcluster()
   .distance('euclidean')
-  .verbose(false)
+  // .verbose(true)
   .data(
     colors.sort(function(a,b) { return Math.random() - 0.5 })
   );
