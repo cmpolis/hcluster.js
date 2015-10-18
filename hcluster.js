@@ -2140,6 +2140,7 @@ var hcluster = function() {
       clusters,
       treeRoot,
       posKey = 'position',
+      distanceName = 'angular',
       distanceFn = distance.angularSimilarity,
       linkage = 'avg',
       verbose = false;
@@ -2175,6 +2176,15 @@ var hcluster = function() {
     verbose = value;
     return clust;
   };
+  clust.distance = function(value) {
+    if(!arguments.length) return distanceName;
+    distanceName = value;
+    distanceFn = {
+      angular: distance.angularSimilarity,
+      euclidean: distance.euclidean
+    }[value];
+    return clust;
+  }
 
   //
   // get tree properties
@@ -2234,7 +2244,7 @@ var hcluster = function() {
         return distanceFn(d[posKey], compareTo[posKey]);
       });
       clusters.push(extend(d, {
-        height: 1,
+        height: distanceName === 'angular' ? 1 : d._distances[ndx],
         indexes: [ndx]
       }));
     });
@@ -2253,7 +2263,8 @@ var hcluster = function() {
                   clusters[pair[0]].indexes,
                   clusters[pair[1]].indexes ); });
       nearestPair = clusterPairs
-        .sort(function(pairA, pairB) { return pairB[2] - pairA[2]; })[0];
+        .sort(function(pairA, pairB) { return pairB[2] - pairA[2]; })[
+          distanceName === 'angular' ? 0 : clusterPairs.length - 1];
       newCluster = {
         name: 'Node ' + iter,
         height: nearestPair[2],
@@ -2271,6 +2282,32 @@ var hcluster = function() {
     }
 
     treeRoot = clusters[0];
+    // clust._rebalanceTree(treeRoot);
+  };
+
+  // rebalance after tree is built (b/c it is top down operation)
+  clust._rebalanceTree = function(node) {
+    if(node.parent && node.parent.children && node.parent.children.length &&
+       node.children && node.children.length) {
+         console.log('test');
+      var rightDistance = clust['_'+linkage+'Distance'](
+        node.parent.children[1].indexes,
+        node.children[0].indexes);
+      var leftDistance = clust['_'+linkage+'Distance'](
+        node.parent.children[1].indexes,
+        node.children[1].indexes);
+
+      // switch order of node.children
+      if(leftDistance > rightDistance) {
+        console.log('rebalance');
+        node.children = [ node.children[1], node.children[0] ];
+        node.indexes = node.children[0].indexes.concat(node.children[1].indexes);
+      }
+    }
+    if(node.children) {
+      clust._rebalanceTree(node.children[0]);
+      clust._rebalanceTree(node.children[1]);
+    }
   };
 
   return clust;
