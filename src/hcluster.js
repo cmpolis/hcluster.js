@@ -2,7 +2,6 @@
 //
 //
 var distance = require('distancejs'),
-    clone = require('clone'),
     extend = require('extend');
 
 //
@@ -28,7 +27,7 @@ var hcluster = function() {
     if(!arguments.length) return data;
 
     // dataset will be mutated
-    data = clone(value);
+    data = value;
     clust._buildTree();
     return clust;
   };
