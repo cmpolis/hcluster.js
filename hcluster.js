@@ -204,6 +204,7 @@ var distance = require('distancejs'),
 var hcluster = function() {
   var data,
       clusters,
+      clustersGivenK,
       treeRoot,
       posKey = 'position',
       distanceName = 'angular',
@@ -266,12 +267,13 @@ var hcluster = function() {
     if(!treeRoot) throw new Error('Need to passin data and build tree first.');
     return treeRoot;
   };
-
-  // TODO: build function to get n clusters from tree
   clust.getClusters = function(n) {
     if(!treeRoot) throw new Error('Need to passin data and build tree first.');
     if(n > data.length) throw new Error('n must be less than the size of the dataset');
-    return [];
+    return clustersGivenK[data.length - n]
+             .map(function(indexes) {
+               return indexes.map(function(ndx) { return data[ndx]; });
+             });
   };
 
   //
@@ -309,6 +311,7 @@ var hcluster = function() {
     //
     var node, clusterPairs, nearestPair, newCluster;
     clusters = [];
+    clustersGivenK = [];
     tree = {};
 
     // calculate distances and build single datum clusters
@@ -324,10 +327,8 @@ var hcluster = function() {
 
     // for tree of n leafs, n-1 linkages
     for(var iter = 0; iter < data.length - 1; iter++) {
-      if(verbose) {
-        console.log(iter + ': ' +
+      verbose && console.log(iter + ': ' +
           clusters.map(function(c) { return c.indexes; }).join('|'));
-      }
 
       // find closest pair of clusters, pair[2] is distance
       clusterPairs = clust._squareMatrixPairs(clusters.length);
@@ -343,7 +344,8 @@ var hcluster = function() {
         indexes: clusters[nearestPair[0]].indexes.concat(clusters[nearestPair[1]].indexes),
         children: [ clusters[nearestPair[0]], clusters[nearestPair[1]] ],
       };
-      if(verbose) console.log(newCluster);
+      verbose && console.log(newCluster);
+      clustersGivenK.push(clusters.map(function(c) { return c.indexes; }));
 
       // remove merged nodes and push new node
       clusters.splice(Math.max(nearestPair[0], nearestPair[1]),1);

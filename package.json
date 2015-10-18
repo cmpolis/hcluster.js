@@ -1,6 +1,6 @@
 {
   "name": "hclusterjs",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Agglomerative Hierarchical Clustering in JavaScript.",
   "main": "src/hcluster.js",
   "scripts": {
