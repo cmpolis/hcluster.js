@@ -1,17 +1,23 @@
 {
   "name": "hclusterjs",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Agglomerative Hierarchical Clustering in JavaScript.",
   "main": "src/hcluster.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test/*-test.js",
-    "build": "browserify src/hcluster.js -s hcluster -o hcluster.js"
+    "test": "./node_modules/.bin/mocha test/*-test.js",
+    "build": "./node_modules/.bin/browserify src/hcluster.js -s hcluster -o hcluster.js && npm run build-min",
+    "build-min": "./node_modules/.bin/uglifyjs hcluster.js > hcluster.min.js"
   },
-  "author": "Chris Polis",
+  "author": "Chris Polis (http://wwww.bytemuse.com)",
+  "contributors": [
+    "Matt Huyck (https://github.com/mhuyck)"
+  ],
   "license": "MIT",
   "devDependencies": {
     "chai": "^3.3.0",
-    "mocha": "^2.3.3"
+    "mocha": "^2.3.3",
+    "browserify": "^13.1.0",
+    "uglify-js": "^2.7.5"
   },
   "dependencies": {
     "distancejs": "^1.1.0",

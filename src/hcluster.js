@@ -163,13 +163,8 @@ var hcluster = function() {
                   clusters[pair[0]].indexes,
                   clusters[pair[1]].indexes ); });
       nearestPair = clusterPairs
-        .reduce(function(pairA, pairB) {
-          if (pairA[2] <= pairB[2]) {
-            return pairA;
-          } else {
-            return pairB;
-          }
-        }, [0, 0, Infinity]);
+        .reduce(function(pairA, pairB) { return pairA[2] <= pairB[2] ? pairA : pairB; },
+                [0, 0, Infinity]);
       newCluster = {
         name: 'Node ' + iter,
         height: nearestPair[2],
