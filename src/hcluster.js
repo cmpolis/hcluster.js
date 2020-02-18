@@ -14,7 +14,8 @@ var hcluster = function() {
       distanceName = 'angular',
       distanceFn = distance.angular,
       linkage = 'avg',
-      verbose = false;
+      verbose = false,
+      onProgress = function() {};
 
   //
   // simple constructor
@@ -54,6 +55,11 @@ var hcluster = function() {
       angular: distance.angular,
       euclidean: distance.euclidean
     }[value] || distance.angular;
+    return clust;
+  }
+  clust.onProgress = function(func) {
+    if(!arguments.length) return onProgress;
+    onProgress = func;
     return clust;
   }
 
@@ -153,6 +159,8 @@ var hcluster = function() {
 
     // for tree of n leafs, n-1 linkages
     for(var iter = 0; iter < data.length - 1; iter++) {
+      onProgress(iter / (data.length - 1));
+      
       verbose && console.log(iter + ': ' +
           clusters.map(function(c) { return c.indexes; }).join('|'));
 

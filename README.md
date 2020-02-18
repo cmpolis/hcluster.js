@@ -14,6 +14,7 @@ var colorCluster = hcluster()
   .linkage('avg')        // support for 'avg', 'max' and 'min'
   .verbose(true)         // false by default
   .posKey('rgbValue')    // 'position' by default
+  .onProgress(func)      // optional function to provide that will be called on each iteration step with the percent complete (0 to 1) as its first argument
 
   // pass in an array of objects w/ array values for 'position' or specified posKey()
   .data(colors);         // as an array of objects w/ array values for 'position'
