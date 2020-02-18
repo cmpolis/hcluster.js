@@ -15,7 +15,7 @@ var hcluster = function() {
       distanceFn = distance.angular,
       linkage = 'avg',
       verbose = false,
-      onProgress = function(percent) {console.log('Progress:', percent.toFixed(0)*100)};
+      onProgress = function(percent) {console.log('Progress:', (percent*100).toFixed(2)+'%')};
 
   //
   // simple constructor
