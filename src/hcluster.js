@@ -15,7 +15,7 @@ var hcluster = function() {
       distanceFn = distance.angular,
       linkage = 'avg',
       verbose = false,
-      onProgress = function() {};
+      onProgress = function(percent) {console.log('Progress:', percent.toFixed(0)*100)};
 
   //
   // simple constructor
@@ -67,18 +67,18 @@ var hcluster = function() {
   // get tree properties
 
   clust.orderedNodes = function() {
-    if(!treeRoot) throw new Error('Need to passin data and build tree first.');
+    if(!treeRoot) throw new Error('Need to pass in data and build tree first');
 
     return treeRoot.indexes.map(function(ndx) {
       return data[ndx];
     });
   };
   clust.tree = function() {
-    if(!treeRoot) throw new Error('Need to passin data and build tree first.');
+    if(!treeRoot) throw new Error('Need to pass in data and build tree first');
     return treeRoot;
   };
   clust.getClusters = function(n) {
-    if(!treeRoot) throw new Error('Need to passin data and build tree first.');
+    if(!treeRoot) throw new Error('Need to pass in data and build tree first');
     if(n > data.length) throw new Error('n must be less than the size of the dataset');
     return clustersGivenK[data.length - n]
              .map(function(indexes) {
